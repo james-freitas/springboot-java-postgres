@@ -26,7 +26,6 @@ dependencies {
 	runtimeOnly 'org.postgresql:postgresql'
 	annotationProcessor 'org.projectlombok:lombok'
 	implementation("org.flywaydb:flyway-core")
-	testImplementation("io.zonky.test:embedded-database-spring-test:1.5.3")
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 	}
@@ -38,12 +37,20 @@ test {
 
 /****** Integration tests configuration ********/
 sourceSets {
-	integrationTest {
-		java {
-			compileClasspath += main.output + test.output
-			runtimeClasspath += main.output + test.output
-			srcDir file('src/integration-test/java')
-		}
-		resources.srcDir file('src/integration-test/resources')
+	intTest {
+		compileClasspath += sourceSets.main.output
+		runtimeClasspath += sourceSets.main.output
+	}
+}
+
+configurations {
+	intTestImplementation.extendsFrom implementation
+	intTestRuntimeOnly.extendsFrom runtimeOnly
+}
+
+dependencies {
+	intTestImplementation("io.zonky.test:embedded-database-spring-test:1.5.3")
+	intTestImplementation('org.springframework.boot:spring-boot-starter-test') {
+		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 	}
 }
