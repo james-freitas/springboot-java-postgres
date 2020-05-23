@@ -25,6 +25,8 @@ dependencies {
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	runtimeOnly 'org.postgresql:postgresql'
 	annotationProcessor 'org.projectlombok:lombok'
+	implementation("org.flywaydb:flyway-core")
+	testImplementation("io.zonky.test:embedded-database-spring-test:1.5.3")
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 	}
@@ -32,4 +34,16 @@ dependencies {
 
 test {
 	useJUnitPlatform()
+}
+
+/****** Integration tests configuration ********/
+sourceSets {
+	integrationTest {
+		java {
+			compileClasspath += main.output + test.output
+			runtimeClasspath += main.output + test.output
+			srcDir file('src/integration-test/java')
+		}
+		resources.srcDir file('src/integration-test/resources')
+	}
 }
