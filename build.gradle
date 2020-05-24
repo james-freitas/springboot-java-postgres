@@ -37,20 +37,20 @@ test {
 
 /****** Integration tests configuration ********/
 sourceSets {
-	intTest {
+	integrationTest {
 		compileClasspath += sourceSets.main.output
 		runtimeClasspath += sourceSets.main.output
 	}
 }
 
 configurations {
-	intTestImplementation.extendsFrom implementation
-	intTestRuntimeOnly.extendsFrom runtimeOnly
+	integrationTestImplementation.extendsFrom implementation
+	integrationTestRuntimeOnly.extendsFrom runtimeOnly
 }
 
 dependencies {
-	intTestImplementation("io.zonky.test:embedded-database-spring-test:1.5.3")
-	intTestImplementation('org.springframework.boot:spring-boot-starter-test') {
+	integrationTestImplementation("io.zonky.test:embedded-database-spring-test:1.5.3")
+	integrationTestImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 	}
 }
